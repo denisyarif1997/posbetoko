@@ -2,7 +2,7 @@ const pool = require('../config/db');
 
 const Users = {
   getAll: async () => {
-    const result = await pool.query('SELECT * FROM users WHERE deleted_at IS NULL');
+    const result = await pool.query('SELECT id,name,email,role FROM users WHERE deleted_at IS NULL');
     return result.rows;
   },
   create: async (name, email, password, role) => {
@@ -21,6 +21,10 @@ const Users = {
   },
   delete: async (id) => {
     await pool.query('UPDATE users SET deleted_at = NOW() WHERE id = $1', [id]);
+  },
+  findByEmail: async (email) => {
+    const result = await pool.query('SELECT * FROM users WHERE email = $1 AND deleted_at IS NULL', [email]);
+    return result.rows[0];
   },
 };
 

@@ -3,8 +3,11 @@ const app = express();
 const routes = require('./routes');
 
 // Middleware
+const cors = require('cors')
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors())
 
 // Register routes
 app.use('/api', routes);

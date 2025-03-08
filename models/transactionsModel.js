@@ -2,7 +2,7 @@ const pool = require('../config/db');
 
 const Transactions = {
   getAll: async () => {
-    const result = await pool.query('SELECT * FROM transactions WHERE deleted_at IS NULL');
+    const result = await pool.query('SELECT t.id, u."name" as "cashier name", c."name" as "customer name", t.total , t.payment , t."change" , t.transaction_date , t.created_at , t.updated_at FROM transactions t left join public.users u on t.user_id = u.id left join public.customers c on c.id = t.customer_id WHERE t.deleted_at IS NULL');
     return result.rows;
   },
   create: async (user_id, customer_id, total, payment, change, details) => {
