@@ -2,7 +2,7 @@ const pool = require('../config/db');
 
 const Customers = {
   getAll: async () => {
-    const result = await pool.query('SELECT * FROM customers WHERE deleted_at IS NULL');
+    const result = await pool.query('SELECT id,name as "Nama Customer",phone as "No Telp",email FROM customers WHERE deleted_at IS NULL');
     return result.rows;
   },
   create: async (name, phone, email, address) => {

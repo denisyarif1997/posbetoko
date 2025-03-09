@@ -7,6 +7,8 @@ const categoriesRoutes = require('./categoriesRoutes');
 const transactionsRoutes = require('./transactionsRoutes');
 const customersRoutes = require('./customersRoutes');
 const suppliersRoutes = require('./suppliersRoutes');
+const warehousesRoutes = require('./warehouseRoutes');
+
 
 // Register routes
 router.use('/users', usersRoutes);
@@ -15,5 +17,7 @@ router.use('/categories', categoriesRoutes);
 router.use('/transactions', transactionsRoutes);
 router.use('/customers', customersRoutes);
 router.use('/suppliers', suppliersRoutes);
+router.use('/warehouse', warehousesRoutes);
+
 
 module.exports = router;

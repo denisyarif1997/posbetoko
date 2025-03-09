@@ -1,21 +1,20 @@
-const Customers = require('../models/customersModel');
+const Warehouse = require('../models/warehouseModel');
 // const verifyToken = require('../middleware/auth');
 
-
-const CustomersController = {
+const WarehousesController = {
   getAll: async (req, res) => {
     try {
-      const customers = await Customers.getAll();
-      res.json(customers);
+      const warehouse = await Warehouse.getAll();
+      res.json(warehouse);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
   },
   create: async (req, res) => {
     try {
-      const { name, phone, email, address } = req.body;
-      const customer = await Customers.create(name, phone, email, address);
-      res.status(201).json(customer);
+      const { name, location } = req.body;
+      const warehouse = await Warehouse.create(name, location);
+      res.status(201).json(warehouse);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -23,9 +22,9 @@ const CustomersController = {
   update: async (req, res) => {
     try {
       const { id } = req.params;
-      const { name, phone, email, address } = req.body;
-      const customer = await Customers.update(id, name, phone, email, address);
-      res.json(customer);
+      const { name, location } = req.body;
+      const warehouse = await Warehouse.update(id, name);
+      res.json(warehouse);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -33,7 +32,7 @@ const CustomersController = {
   delete: async (req, res) => {
     try {
       const { id } = req.params;
-      await Customers.delete(id);
+      await Warehouse.delete(id);
       res.status(204).send();
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -41,4 +40,4 @@ const CustomersController = {
   },
 };
 
-module.exports = CustomersController;
+module.exports = WarehousesController;
