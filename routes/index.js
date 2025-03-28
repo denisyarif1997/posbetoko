@@ -8,6 +8,7 @@ const transactionsRoutes = require('./transactionsRoutes');
 const customersRoutes = require('./customersRoutes');
 const suppliersRoutes = require('./suppliersRoutes');
 const warehousesRoutes = require('./warehouseRoutes');
+const stockRoutes = require('./stockRoutes')
 
 
 // Register routes
@@ -18,6 +19,7 @@ router.use('/transactions', transactionsRoutes);
 router.use('/customers', customersRoutes);
 router.use('/suppliers', suppliersRoutes);
 router.use('/warehouse', warehousesRoutes);
+router.use('/stock', stockRoutes);
 
 
 module.exports = router;

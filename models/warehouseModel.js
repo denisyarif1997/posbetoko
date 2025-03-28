@@ -12,16 +12,17 @@ const Warehouse = {
     );
     return result.rows[0];
   },
-  update: async (id, name,location) => {
+  update: async (id, name, location) => {
     const result = await pool.query(
-      'UPDATE customers SET name = $1, location = $2, email = $3, address = $4 WHERE id = $5 AND deleted_at IS NULL RETURNING *',
-      [name, phone, email, address, id]
+      'UPDATE warehouses SET name = $1, location = $2 WHERE id = $3 RETURNING *',
+      [name, location, id]
     );
-    return result.rows[0];
+  
+    return result.rowCount > 0 ? result.rows[0] : null;
   },
-//   delete: async (id) => {
-//     await pool.query('UPDATE customers SET deleted_at = NOW() WHERE id = $1', [id]);
-//   },
+  delete: async (id) => {
+    await pool.query('UPDATE customers SET deleted_at = NOW() WHERE id = $1', [id]);
+  },
 };
 
 module.exports = Warehouse;
