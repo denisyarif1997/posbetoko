@@ -5,7 +5,8 @@ const Stock = {
     //cek data apa sudah ada di table
 
     const chekcResult = await pool.query(
-      `SELECT * FROM wp_inventory WHERE product_id = $1 AND warehouse_id = $2`,
+      `SELECT * FROM wp_inventory 
+      WHERE product_id = $1 AND warehouse_id = $2`,
       [product_id,warehouse_id]
     );
 

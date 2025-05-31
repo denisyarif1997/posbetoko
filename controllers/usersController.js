@@ -2,7 +2,6 @@ const Users = require('../models/usersModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const SECRET_KEY = 'your_secret_key'; // Ganti dengan kunci rahasia Anda
 
 
 const UsersController = {
@@ -67,7 +66,7 @@ const UsersController = {
       }
 
       // Buat token JWT
-      const token = jwt.sign({ id: user.id, role: user.role }, SECRET_KEY, { expiresIn: '24h' });
+      const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '8h' });
 
       res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
     } catch (err) {

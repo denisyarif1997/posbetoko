@@ -3,17 +3,23 @@ const pool = require('../config/db');
 const Transactions = {
   getAll: async () => {
     const result = await pool.query(`
-      SELECT t.id, u.name AS "cashier name", c.name AS "customer name", p.name AS "nama barang", td.quantity AS "jumlah item", 
-             t.total, t.payment AS "pembayaran", t.change AS "kembalian", 
-             t.transaction_date AS "tanggal transaksi", t.created_at 
-      FROM transactions t 
-      LEFT JOIN public.users u ON t.user_id = u.id 
-      LEFT JOIN public.customers c ON c.id = t.customer_id 
-      LEFT JOIN public.transaction_details td ON td.transaction_id = t.id 
-      LEFT JOIN public.products p ON td.product_id = p.id 
-      WHERE t.deleted_at IS NULL 
-      ORDER BY t.id DESC
-    `);
+      SELECT t.id, 
+       u.name AS "cashier name", 
+       c.name AS "customer name", 
+       p.name AS "nama barang", 
+       td.quantity AS "jumlah item", 
+       t.total, 
+       t.payment AS "pembayaran", 
+       t.change AS "kembalian", 
+       (t.transaction_date + INTERVAL '7 hours') AS "tanggal transaksi", 
+       (t.created_at + INTERVAL '7 hours') as "created_at"
+FROM transactions t 
+LEFT JOIN public.users u ON t.user_id = u.id 
+LEFT JOIN public.customers c ON c.id = t.customer_id 
+LEFT JOIN public.transaction_details td ON td.transaction_id = t.id 
+LEFT JOIN public.products p ON td.product_id = p.id 
+WHERE t.deleted_at IS NULL 
+ORDER BY t.id DESC`);
     return result.rows;
   },
 

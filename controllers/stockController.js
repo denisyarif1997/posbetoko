@@ -20,6 +20,8 @@ const StockController = {
     }
   },
 
+
+
  update: async (req, res) => {
   try {
     const { id } = req.params;
@@ -41,6 +43,15 @@ const StockController = {
   }
 },
 
+ delete: async (req, res) => {
+    try {
+      const { id } = req.params;
+      await Stock.delete(id);
+      res.status(204).send();
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
   
 };
 

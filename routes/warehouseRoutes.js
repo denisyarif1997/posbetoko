@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const WarehousesController = require('../controllers/warehouseController');
-// const verifyToken = require('../middleware/auth');
+const verifyToken = require('../middleware/auth');
 
-router.get('/', WarehousesController.getAll);
-router.post('/', WarehousesController.create);
-router.put('/:id', WarehousesController.update);
-router.delete('/:id', WarehousesController.delete);
+router.get('/', verifyToken, WarehousesController.getAll);
+router.post('/', verifyToken, WarehousesController.create);
+router.put('/:id', verifyToken, WarehousesController.update);
+router.delete('/:id', verifyToken, WarehousesController.delete);
 
 module.exports = router;

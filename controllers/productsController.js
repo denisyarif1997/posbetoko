@@ -9,10 +9,26 @@ const ProductsController = {
       res.status(500).json({ error: err.message });
     }
   },
+
+  getByNameProduct: async (req, res) => {
+    try {
+      const { name } = req.params;
+      const products = await Products.getByNameProduct(name);
+      if (!products.length) {
+        return res.status(404).json({ message: 'No products found' });
+      }
+      res.json(products);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  },
+
+  
+
   create: async (req, res) => {
     try {
-      const { name, barcode, category_id, unit_id, price, stock } = req.body;
-      const product = await Products.create(name, barcode, category_id, unit_id, price, stock);
+      const { name, barcode, category_id, unit_id, price } = req.body;
+      const product = await Products.create(name, barcode, category_id, unit_id, price);
       res.status(201).json(product);
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -21,8 +37,8 @@ const ProductsController = {
   update: async (req, res) => {
     try {
       const { id } = req.params;
-      const { name, barcode, category_id, unit_id, price, stock } = req.body;
-      const product = await Products.update(id, name, barcode, category_id, unit_id, price, stock);
+      const { name, barcode, category_id, unit_id, price } = req.body;
+      const product = await Products.update(id, name, barcode, category_id, unit_id, price);
       res.json(product);
     } catch (err) {
       res.status(500).json({ error: err.message });
