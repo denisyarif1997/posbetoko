@@ -3,7 +3,13 @@ const Suppliers = require('../models/suppliersModel');
 const SuppliersController = {
   getAll: async (req, res) => {
     try {
-      const suppliers = await Suppliers.getAll();
+      const { name } = req.query;
+      let suppliers;
+      if (name) {
+        suppliers = await Suppliers.getByName(name);
+      } else {
+        suppliers = await Suppliers.getAll();
+      }
       res.json(suppliers);
     } catch (err) {
       res.status(500).json({ error: err.message });

@@ -7,8 +7,12 @@ const bcrypt = require('bcrypt');
 const UsersController = {
   getAll: async (req, res) => {
     try {
-      const users = await Users.getAll();
-      res.json(users);
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 20;
+      const search = req.query.search || '';
+      const users = await Users.getAll({ page, limit, search });
+      const total = await Users.getCount(search);
+      res.json({ data: users, total, page, limit });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

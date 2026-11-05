@@ -3,7 +3,8 @@ const Products = require('../models/productsModel');
 const ProductsController = {
   getAll: async (req, res) => {
     try {
-      const products = await Products.getAll();
+      const search = req.query.search || '';
+      const products = await Products.getAll(search);
       res.json(products);
     } catch (err) {
       res.status(500).json({ error: err.message });

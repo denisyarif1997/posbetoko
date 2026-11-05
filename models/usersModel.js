@@ -1,8 +1,19 @@
 const pool = require('../config/db');
 
 const Users = {
-  getAll: async () => {
-    const result = await pool.query('SELECT id,name,email,role FROM users WHERE deleted_at IS NULL');
+  getAll: async (options = {}) => {
+    const { page = 1, limit = 20, search = '' } = options;
+    const offset = (page - 1) * limit;
+    const searchCondition = search ? `AND name ILIKE $3` : '';
+    const query = `
+      SELECT id, name, email, role
+      FROM users
+      WHERE deleted_at IS NULL
+      ${searchCondition}
+      ORDER BY name ASC
+      LIMIT $1 OFFSET $2`;
+    const params = search ? [limit, offset, `%${search}%`] : [limit, offset];
+    const result = await pool.query(query, params);
     return result.rows;
   },
   create: async (name, email, password, role) => {
@@ -25,6 +36,18 @@ const Users = {
   findByEmail: async (email) => {
     const result = await pool.query('SELECT * FROM users WHERE email = $1 AND deleted_at IS NULL', [email]);
     return result.rows[0];
+  },
+  // Get total count for pagination (optional search)
+  getCount: async (search = '') => {
+    const searchCondition = search ? `AND name ILIKE $1` : '';
+    const query = `
+      SELECT COUNT(*) AS total
+      FROM users
+      WHERE deleted_at IS NULL
+      ${searchCondition}`;
+    const params = search ? [`%${search}%`] : [];
+    const result = await pool.query(query, params);
+    return parseInt(result.rows[0].total, 10);
   },
 };
 

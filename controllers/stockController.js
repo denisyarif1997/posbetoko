@@ -13,7 +13,8 @@ const StockController = {
 
   getAll: async (req, res) => {
     try {
-      const stocks = await Stock.getAll();
+      const search = req.query.search || '';
+      const stocks = await Stock.getAll(search);
       res.json({ success: true, message: "Stocks retrieved successfully", data: stocks });
     } catch (err) {
       res.status(500).json({ success: false, message: "Failed to retrieve stocks", error: err.message });

@@ -5,6 +5,13 @@ const Suppliers = {
     const result = await pool.query('SELECT * FROM suppliers WHERE deleted_at IS NULL');
     return result.rows;
   },
+  getByName: async (name) => {
+    const result = await pool.query(
+      'SELECT * FROM suppliers WHERE name ILIKE $1 AND deleted_at IS NULL',
+      [`%${name}%`]
+    );
+    return result.rows;
+  },
   create: async (name, phone, email, address) => {
     const result = await pool.query(
       'INSERT INTO suppliers (name, phone, email, address) VALUES ($1, $2, $3, $4) RETURNING *',

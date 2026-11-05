@@ -4,7 +4,8 @@ const Warehouse = require('../models/warehouseModel');
 const WarehousesController = {
   getAll: async (req, res) => {
     try {
-      const warehouses = await Warehouse.getAll();
+      const search = req.query.search || '';
+      const warehouses = await Warehouse.getAll(search);
       res.json({ success: true, message: "Warehouses retrieved successfully", data: warehouses });
     } catch (err) {
       res.status(500).json({ success: false, message: "Failed to retrieve warehouses", error: err.message });

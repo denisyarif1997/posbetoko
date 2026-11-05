@@ -3,8 +3,12 @@ const Categories = require('../models/categoriesModel');
 const CategoriesController = {
   getAll: async (req, res) => {
     try {
-      const categories = await Categories.getAll();
-      res.json(categories);
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 20;
+      const search = req.query.search || '';
+      const categories = await Categories.getAll({ page, limit, search });
+      const total = await Categories.getCount(search);
+      res.json({ data: categories, total, page, limit });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
